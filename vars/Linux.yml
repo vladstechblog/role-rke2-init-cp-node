@@ -1,0 +1,3 @@
+# Generic Linux variables go here
+rke2_kubeconfig_path: /etc/rancher/rke2/rke2.yaml
+rke2_kubectl_path: /var/lib/rancher/rke2/bin/kubectl

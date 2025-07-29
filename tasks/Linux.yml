@@ -1,0 +1,39 @@
+---
+# Generic Linux tasks go here
+- name: Check variable definitions
+  ansible.builtin.assert:
+    that: "{{ var_name }} is defined"
+    msg: "{{ var_name }} is undefined"
+  loop:
+    - cluster_domain_name
+    - rke2_config_dir
+    - rke2_config_name
+    - rke2_config_dest
+    - rke2_server_svc
+    - pod_cidr
+    - svc_cidr
+  loop_control:
+    loop_var: var_name
+
+- name: Create RKE2 config directory
+  ansible.builtin.file:
+    path: "{{ rke2_config_dir }}"
+    owner: root
+    group: root
+    mode: 0700 # noqa: yaml[octal-values]
+    state: directory
+
+- name: Template config file
+  ansible.builtin.template:
+    src: "{{ rke2_config_name }}.j2"
+    dest: "{{ rke2_config_dest }}"
+    owner: root
+    group: root
+    mode: 0640 # noqa: yaml[octal-values]
+
+- name: Start RKE2 server services
+  ansible.builtin.systemd_service:
+    name: "{{ rke2_server_svc }}"
+    daemon_reload: true
+    state: started
+    enabled: true
