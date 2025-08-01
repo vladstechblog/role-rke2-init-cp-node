@@ -4,3 +4,5 @@ cluster-cidr: {{ pod_cidr }}
 cluster-domain: {{ cluster_domain_name }}
 disable-cloud-controller: true
 selinux: true
+disable:
+- rke2-ingress-nginx

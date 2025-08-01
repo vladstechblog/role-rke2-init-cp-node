@@ -12,15 +12,22 @@
     - rke2_server_svc
     - pod_cidr
     - svc_cidr
+    - manifests_dir
+    - rke2_calico_config_manifest
+    - disable_vxlan
   loop_control:
     loop_var: var_name
+
+- name: Include diable_vxlan tasks
+  ansible.builtin.include_tasks: disable_vxlan.yml 
+  when: disable_vxlan
 
 - name: Create RKE2 config directory
   ansible.builtin.file:
     path: "{{ rke2_config_dir }}"
     owner: root
     group: root
-    mode: 0700 # noqa: yaml[octal-values]
+    mode: '0700'
     state: directory
 
 - name: Template config file
@@ -29,7 +36,7 @@
     dest: "{{ rke2_config_dest }}"
     owner: root
     group: root
-    mode: 0640 # noqa: yaml[octal-values]
+    mode: '0640'
 
 - name: Start RKE2 server services
   ansible.builtin.systemd_service:

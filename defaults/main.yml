@@ -6,3 +6,6 @@ rke2_config_dest: "{{ rke2_config_dir }}/{{ rke2_config_name }}"
 rke2_server_svc: rke2-server.service
 pod_cidr: 172.16.0.0/16
 svc_cidr: 172.17.0.0/16
+manifests_dir: /var/lib/rancher/rke2/server/manifests
+rke2_calico_config_manifest: rke2-calico-config.yml
+disable_vxlan: true
